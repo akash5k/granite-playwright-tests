@@ -25,15 +25,29 @@ test.describe("Tasks page", () => {
     }) => {
         await page.goto("/");
         await taskPage.createTaskAndVerify({ taskName });
-        await page
-            .getByTestId("tasks-pending-table")
-            .getByRole("row", { name: taskName })
-            .getByRole("checkbox")
-            .click();
+        await taskPage.markTaskAsCompletedAndVerify({ taskName });
+    });
+
+    test("should be able to delete a completed task", async ({
+        page,
+        taskPage,
+    }) => {
+        await page.goto("/");
+        await taskPage.createTaskAndVerify({ taskName });
+        await taskPage.markTaskAsCompletedAndVerify({ taskName });
         const completedTaskInDashboard = page
             .getByTestId("tasks-completed-table")
             .getByRole("row", { name: taskName });
-        await completedTaskInDashboard.scrollIntoViewIfNeeded();
-        await expect(completedTaskInDashboard).toBeVisible();
+
+        await completedTaskInDashboard
+            .getByTestId("completed-task-delete-link")
+            .click();
+
+        await expect(completedTaskInDashboard).toBeHidden();
+        await expect(
+            page
+                .getByTestId("tasks-pending-table")
+                .getByRole("row", { name: taskName })
+        ).toBeHidden();
     });
 });
