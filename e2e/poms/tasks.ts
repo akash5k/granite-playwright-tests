@@ -60,4 +60,15 @@ export class TaskPage {
             this.page.getByTestId("tasks-pending-table").getByRole("row").nth(1)
         ).toContainText(taskName);
     };
+
+    //checks the single comment count (equal to 1 ) for the newly added comment to the task
+    checkCommentCount = async ({ taskName }: { taskName: string }) => {
+        // await this.page.goto("/")
+        await expect(this.page
+            .getByTestId("tasks-pending-table")
+            .getByRole("row", { name: taskName })
+            .getByRole('cell', { name: '1' }))
+            .toContainText("1")
+        // console.log("count verified")
+    }
 }
