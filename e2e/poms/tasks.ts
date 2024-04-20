@@ -40,4 +40,16 @@ export class TaskPage {
         await completedTaskInDashboard.scrollIntoViewIfNeeded();
         await expect(completedTaskInDashboard).toBeVisible();
     };
+
+    starTaskAndVerify = async ({ taskName }: TaskName) => {
+        const starIcon = this.page
+            .getByTestId("tasks-pending-table")
+            .getByRole("row", { name: taskName })
+            .getByTestId("pending-task-star-or-unstar-link");
+        await starIcon.click();
+        await expect(starIcon).toHaveClass(/ri-star-fill/i);
+        await expect(
+            this.page.getByTestId("tasks-pending-table").getByRole("row").nth(1)
+        ).toContainText(taskName);
+    }
 }
