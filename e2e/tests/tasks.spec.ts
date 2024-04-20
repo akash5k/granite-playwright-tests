@@ -89,6 +89,7 @@ test.describe("Tasks page", () => {
         await taskPage.createTaskAndVerify({ taskName, userName: "Sam Smith" });
 
         // Creating a new browser context and a page in the browser without restoring the session
+        //new browser for assignee context
         const newUserContext = await browser.newContext({
             storageState: { cookies: [], origins: [] },
         });
