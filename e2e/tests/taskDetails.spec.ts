@@ -23,11 +23,11 @@ test.describe("Task Details Page", async () => {
         await test.step("Step 1 : Login, create a task and add a comment as a creator to the task ", async () => {
             await page.goto("/");
             await taskPage.createTaskAndVerify({ taskName, userName: "Sam Smith" });
-            await taskDetailsPage.addCommentAsCreatorAndVerify({ taskName, commentText });
+            await taskDetailsPage.addCommentAndVerify({ taskName, commentText });
         })
         await test.step("Step 2 : Check if the count to the comment is correct or not on the tasks page", async () => {
             await page.goto("/");
-            await taskPage.checkCommentCount({ taskName });
+            await taskPage.checkCommentCount({ taskName, expectedCount: "1" });
         })
 
         await test.step("Step 3 : Login as assignee and check if the comment is visible", async () => {
@@ -54,7 +54,7 @@ test.describe("Task Details Page", async () => {
             })
             await test.step("Step 3.2 : Check comment count", async () => {
                 await newUserPage.goto("/")
-                await taskPage.checkCommentCount({ taskName })
+                await taskPage.checkCommentCount({ taskName, expectedCount: "1" })
             })
         })
     })

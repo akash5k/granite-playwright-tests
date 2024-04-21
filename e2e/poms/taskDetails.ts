@@ -13,7 +13,7 @@ export class TaskDetailsPage {
     }
 
     //add and and Check if the comment persists on the page.
-    addCommentAsCreatorAndVerify = async ({ taskName, commentText }: TaskDetails) => {
+    addCommentAndVerify = async ({ taskName, commentText }: TaskDetails) => {
         await this.page.getByTestId("tasks-pending-table").getByText(new RegExp(taskName, "i")).click();
         await this.page.getByTestId('comments-text-field').fill(commentText);
         await this.page.getByTestId('comments-submit-button').click();
